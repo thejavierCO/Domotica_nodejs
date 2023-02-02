@@ -1,0 +1,18 @@
+{
+  "name": "sinricpro",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "clear&&nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.7.0",
+    "dotenv": "^16.0.3",
+    "nodemon": "^2.0.20",
+    "sinricpro": "^2.7.1"
+  }
+}
