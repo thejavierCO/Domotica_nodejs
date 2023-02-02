@@ -5,7 +5,7 @@ const {
   startSinricPro,
   raiseEvent,
   eventNames,
-} = require('sinricpro') // require('../../index');
+} = require('sinricpro')
 dotenv.config()
 const APPKEY = process.env.APPKEY
 const APPSECRET = process.env.APPSECRET
@@ -20,6 +20,7 @@ deviceIds.forEach(async (e, i) => {
     let { data: devices } = await supabase
       .from('devices')
       .insert({ id: i, device_id: e, state: false })
+      console.log(devices)
   } catch (error) {
     console.log(error)
   }
@@ -45,4 +46,10 @@ const setPowerState = async (deviceid, data) => {
 
 startSinricPro(sinricpro, { setPowerState })
 
-//raiseEvent(sinricpro, eventNames.powerState, device1, { state: 'On' })
+supabase
+  .channel('supabase_realtime')
+  .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'devices' }, payload => {
+    console.log('Change received!', payload)
+    //raiseEvent(sinricpro, eventNames.powerState, device1, { state: 'On' })
+  })
+  .subscribe()
