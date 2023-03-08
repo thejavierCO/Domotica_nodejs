@@ -8,10 +8,10 @@ const db = new Db(
   process.env.SUPABASE_KEY,
 )
 const Devices = db.getTable("devices")
-Devices.getItemsForColumn("devices_id").then(e=>{
-  console.log(e);
-}).catch(e=>console.log(e))
 
+Devices.on("load",(a)=>{
+  console.log(a);
+})
 // const setPowerState = async (deviceid, data) => {
 //   let {
 //     data: [{ id }],

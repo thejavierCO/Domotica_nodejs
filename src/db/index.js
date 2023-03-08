@@ -9,10 +9,16 @@ class Db {
   }
 }
 
-class Table {
+class Table extends EventTarget {
   constructor(table) {
+    super();
     this._table = table;
     this._items = [];
+    this.getAllItems().then(e => {
+      this.dispatchEvent(new Event("load"))
+    }).catch(e => {
+      console.log(e);
+    })
   }
   async getAllItems() {
     let { data, error } = await this._table.select('*')
@@ -26,6 +32,12 @@ class Table {
   }
   async getItem(id) {
     return this._items.filter(e => e.id == id);
+  }
+  on(type, fns) {
+    this.addEventListener(type, fns)
+  }
+  emit(type) {
+    this.dispatchEvent(new Event({ type }))
   }
 }
 
